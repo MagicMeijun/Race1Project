@@ -23,29 +23,18 @@ class GameViewModel : ViewModel() {
         screenHeightPx = height
     }
 
-    // 移動紅球
-    fun MoveCircle(dx: Float, dy: Float) {
-        circleX.value += dx
-        circleY.value += dy
-
-        if (circleX.value < 100f) circleX.value = 100f
-
-        // 如果碰到右邊邊界，分數 +1，紅球回到左邊
-        if (circleX.value + 100f >= screenWidthPx) {
-            score.value += 1
-            circleX.value = 100f
-        }
-    }
-
-    // 開始自動水平移動遊戲
+    // 自動水平移動
     fun StartGame() {
         viewModelScope.launch {
             while (true) {
                 circleX.value += 5f
+
+                // 碰到右邊邊界 → 分數 +1 並回到左邊
                 if (circleX.value + 100f >= screenWidthPx) {
                     score.value += 1
                     circleX.value = 100f
                 }
+
                 delay(16L) // 60fps
             }
         }

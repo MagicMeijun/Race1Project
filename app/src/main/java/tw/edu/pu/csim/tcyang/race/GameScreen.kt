@@ -2,7 +2,6 @@ package tw.edu.pu.csim.tcyang.race
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -11,7 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,16 +22,9 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
             .fillMaxSize()
             .background(Color.Yellow)
     ) {
-        // 🔴 紅色圓球
+        // 🔴 紅球自動水平移動
         Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-                .pointerInput(Unit) {
-                    detectDragGestures { change, dragAmount ->
-                        change.consume()
-                        gameViewModel.MoveCircle(dragAmount.x, 0f) // 只允許水平拖曳
-                    }
-                }
+            modifier = Modifier.fillMaxSize()
         ) {
             drawCircle(
                 color = Color.Red,
@@ -67,6 +58,20 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
             Text(
                 text = "分數：${gameViewModel.score.value}",
                 fontSize = 24.sp,
+                color = Color.Black
+            )
+        }
+
+        // 📱 左上角螢幕大小
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp, start = 10.dp),
+            contentAlignment = Alignment.TopStart
+        ) {
+            Text(
+                text = "螢幕：${gameViewModel.screenWidthPx.toInt()} x ${gameViewModel.screenHeightPx.toInt()}",
+                fontSize = 18.sp,
                 color = Color.Black
             )
         }
