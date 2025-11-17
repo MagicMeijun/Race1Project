@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             RaceTheme {
-                GameScreen(message="Test", gameViewModel)
+                GameScreen(message="橫式螢幕，隱藏狀態列.", gameViewModel)
             }
         }
     }

@@ -1,48 +1,58 @@
 package tw.edu.pu.csim.tcyang.race
 
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class GameViewModel : ViewModel() {
+class GameViewModel: ViewModel() {
 
-    var circleX = mutableFloatStateOf(100f)
-    var circleY = mutableFloatStateOf(500f)
+    var screenWidthPx by mutableStateOf(0f)
+        private set
 
-    var screenWidthPx = 1080f
-    var screenHeightPx = 1920f
+    var screenHeightPx by mutableStateOf(0f)
+        private set
 
-    var score = mutableIntStateOf(0)
+    var gameRunning by mutableStateOf(false)
 
-    // 設定螢幕大小
-    fun SetGameSize(width: Float, height: Float) {
-        screenWidthPx = width
-        screenHeightPx = height
+    var circleX by mutableStateOf(0f)
+    var circleY by mutableStateOf(0f)
+
+    val horse = Horse()
+
+    // 設定螢幕寬度與高度
+    fun SetGameSize(w: Float, h: Float) {
+        screenWidthPx = w
+        screenHeightPx = h
     }
 
-    // 自動水平移動
     fun StartGame() {
-        viewModelScope.launch {
-            while (true) {
-                circleX.value += 5f
+        //回到初使位置
+        circleX = 100f
+        circleY = screenHeightPx - 100f
 
-                // 碰到右邊邊界 → 分數 +1 並回到左邊
-                if (circleX.value + 100f >= screenWidthPx) {
-                    score.value += 1
-                    circleX.value = 100f
+        viewModelScope.launch {
+            while (gameRunning) { // 每0.1秒循環
+                delay(100)
+                circleX += 10
+
+                if (circleX >= screenWidthPx - 100){
+                    circleX = 100f
                 }
 
-                delay(16L) // 60fps
+                horse.Run()
+                if (horse.HorseX >= screenWidthPx - 300){
+                    horse.HorseX = 0
+                }
             }
         }
     }
 
-    fun ResetGame() {
-        score.value = 0
-        circleX.value = 100f
-        circleY.value = 500f
+    fun MoveCircle(x: Float, y: Float) {
+        circleX += x
+        circleY += y
     }
 }
