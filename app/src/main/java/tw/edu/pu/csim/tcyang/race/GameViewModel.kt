@@ -21,12 +21,17 @@ class GameViewModel: ViewModel() {
     var circleX by mutableStateOf(0f)
     var circleY by mutableStateOf(0f)
 
-    val horse = Horse()
+    //val horse = Horse()
+    val horses = mutableListOf<Horse>()
 
     // 設定螢幕寬度與高度
     fun SetGameSize(w: Float, h: Float) {
         screenWidthPx = w
         screenHeightPx = h
+
+        for (i in 0..2){
+            horses.add(Horse(i))
+        }
     }
 
     fun StartGame() {
@@ -43,10 +48,14 @@ class GameViewModel: ViewModel() {
                     circleX = 100f
                 }
 
-                horse.Run()
-                if (horse.HorseX >= screenWidthPx - 300){
-                    horse.HorseX = 0
+                for (i in 0..2){
+                    horses[i].Run()
+                    if (horses[i].HorseX >= screenWidthPx - 300){
+                        horses[i].HorseX = 0
+                    }
                 }
+
+
             }
         }
     }
@@ -55,4 +64,8 @@ class GameViewModel: ViewModel() {
         circleX += x
         circleY += y
     }
+
+
+
+
 }

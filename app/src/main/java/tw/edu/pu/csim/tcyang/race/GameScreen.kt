@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -51,20 +52,29 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
                 center = Offset(gameViewModel.circleX, gameViewModel.circleY)
             )
 
-            drawImage(
-                image = imageBitmaps[gameViewModel.horse.HorseNo],
-                dstOffset = IntOffset(gameViewModel.horse.HorseX, gameViewModel.horse.HorseY),
-                dstSize = IntSize(300, 300)
-            )
+            for (i in 0..2){
+                drawImage(
+                    image = imageBitmaps[gameViewModel.horses[i].HorseNo],
+                    dstOffset = IntOffset(gameViewModel.horses[i].HorseX,
+                        gameViewModel.horses[i].HorseY),
+                    dstSize = IntSize(300, 300)
+                )
+            }
+
+
         }
 
 
-        Text(text = message + gameViewModel.screenWidthPx.toString() + "*"
-                + gameViewModel.screenHeightPx.toString())
+        Text(
+            text = message + gameViewModel.screenWidthPx.toString() + "*" + gameViewModel.screenHeightPx.toString() + "\n資管二B 李維駿",
+            modifier = Modifier.align(Alignment.TopStart)   // ⬅ 左上角
+        )
+
 
         Button(onClick = {gameViewModel.gameRunning = true
             gameViewModel.StartGame()
-        }
+        },
+            modifier = Modifier.align(Alignment.TopCenter)
         ){
             Text("遊戲開始")
         }
