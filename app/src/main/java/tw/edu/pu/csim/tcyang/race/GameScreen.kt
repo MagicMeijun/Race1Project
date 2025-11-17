@@ -66,7 +66,7 @@ fun GameScreen(message: String, gameViewModel: GameViewModel) {
 
 
         Text(
-            text = message + gameViewModel.screenWidthPx.toString() + "*" + gameViewModel.screenHeightPx.toString() + "\n資管二B 李維駿",
+            text = message + gameViewModel.screenWidthPx.toString() + "*" + gameViewModel.screenHeightPx.toString(),
             modifier = Modifier.align(Alignment.TopStart)   // ⬅ 左上角
         )
 
